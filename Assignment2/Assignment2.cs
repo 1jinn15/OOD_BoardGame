@@ -70,11 +70,12 @@ public class Board
   public MoveTracker MoveTracker{get;set;}
 
   public Board(int width){
-    
+    MoveTracker = new MoveTracker();
   }
 
   public Board(int height,int width)
   {
+    MoveTracker = new MoveTracker();
     
   }
 

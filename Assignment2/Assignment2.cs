@@ -20,13 +20,11 @@ public class HumanPlayer : Player
 {
   
 
-  public HumanPlayer(int playerNumber, string name)
-  {
+  public HumanPlayer(int playerNumber, string name){
     
   }
 
-  public int Play(int width)
-  {
+  public int Play(int width){
     
   }
 

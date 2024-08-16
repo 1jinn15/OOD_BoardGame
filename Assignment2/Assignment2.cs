@@ -5,7 +5,6 @@ using System.IO.Enumeration;
 
 public class MoveTracker{
   
-
   public MoveTracker(){
     
   }
@@ -143,7 +142,7 @@ public abstract class BoardGame
   }
   
 }
-class Treblecross : BoardGame
+class Notakto : BoardGame
 {
   
   protected override void initializeGame()
@@ -171,7 +170,7 @@ class Treblecross : BoardGame
 }
 
 
-class Reversi : BoardGame
+class Gomoku : BoardGame
 {
   private Board board;
   protected override void initializeGame()

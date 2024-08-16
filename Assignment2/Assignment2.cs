@@ -38,6 +38,8 @@ public class ComputerPlayer : Player{
 }
 
 public class GameMode{
+    public Player player1 { get; set; }
+    public Player player2 { get; set; }
 
   public GameMode(){
 

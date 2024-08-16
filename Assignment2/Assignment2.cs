@@ -138,8 +138,7 @@ public abstract class BoardGame
 class Notakto : BoardGame
 {
   
-  protected override void initializeGame()
-  {
+  protected override void initializeGame(){
     
 
   }

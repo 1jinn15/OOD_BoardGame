@@ -38,7 +38,7 @@ public class ComputerPlayer : Player
 
   public ComputerPlayer(int playerNumber){
     PlayerNumber = playerNumber;
-    Name = "Computer";
+    Name = "ComputerPlayer";
   }
 }
 

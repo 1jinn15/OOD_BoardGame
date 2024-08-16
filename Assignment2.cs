@@ -11,8 +11,7 @@ public class MoveTracker{
 
 }
 
-public interface Player
-{
+public interface Player{
   
 }
 
@@ -21,7 +20,8 @@ public class HumanPlayer : Player
   
 
   public HumanPlayer(int playerNumber, string name){
-    
+    PlayerNumber = playerNumber;
+    Name = name;
   }
 
   public int Play(int width){
@@ -31,8 +31,7 @@ public class HumanPlayer : Player
   
 }
 
-public class ComputerPlayer : Player
-{
+public class ComputerPlayer : Player{
   
 
   
@@ -40,19 +39,17 @@ public class ComputerPlayer : Player
 
 public class GameMode
 {
-
+  
   public GameMode()
   {
 
   }
 
-  private void setHumanVsHumanMode(string name1, string name2)
-  {
+  private void setHumanVsHumanMode(string name1, string name2){
     
   }
 
-  private void setHumanVsComputerMode(string name)
-  {
+  private void setHumanVsComputerMode(string name){
     
   }
 
@@ -205,4 +202,3 @@ class Program
 
   
 }
-

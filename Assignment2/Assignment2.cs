@@ -31,8 +31,7 @@ public class HumanPlayer : Player
   
 }
 
-public class ComputerPlayer : Player
-{
+public class ComputerPlayer : Player{
   
 
   

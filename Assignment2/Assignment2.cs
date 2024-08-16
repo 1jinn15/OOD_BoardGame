@@ -37,21 +37,17 @@ public class ComputerPlayer : Player{
   
 }
 
-public class GameMode
-{
+public class GameMode{
 
-  public GameMode()
-  {
+  public GameMode(){
 
   }
 
-  private void setHumanVsHumanMode(string name1, string name2)
-  {
+  private void setHumanVsHumanMode(string name1, string name2){
     
   }
 
-  private void setHumanVsComputerMode(string name)
-  {
+  private void setHumanVsComputerMode(string name){
     
   }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.IO.Enumeration;
@@ -14,7 +14,6 @@ public class MoveTracker{
 
 public interface Player
 {
-  
   
 }
 
@@ -102,7 +101,7 @@ public class Board
   }
 }
 
-public class File{  
+public class SaveFile{  
   
   public void saveGameToFile(Board board, Player[] players, int currentPlayer)
   {
@@ -163,7 +162,7 @@ class Treblecross : BoardGame
   { 
     
   }
-  protected override bool checkWinner()
+  protected override bool checkWinCondition()
   {
     
     
@@ -190,7 +189,7 @@ class Reversi : BoardGame
     // implement the method
     return true;
   }
-  protected override bool checkWinner()
+  protected override bool checkWinCondition()
   {
     return true;
     // implement the method

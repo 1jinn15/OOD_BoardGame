@@ -15,7 +15,6 @@ public class MoveTracker{
 public interface Player
 {
   
-  
 }
 
 public class HumanPlayer : Player

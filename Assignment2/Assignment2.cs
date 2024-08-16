@@ -21,7 +21,8 @@ public class HumanPlayer : Player
   
 
   public HumanPlayer(int playerNumber, string name){
-    
+    PlayerNumber = playerNumber;
+    Name = name;
   }
 
   public int Play(int width){

@@ -144,8 +144,7 @@ class Notakto : BoardGame
   }
 
 
-  protected override void play(Player player)
-  {
+  protected override void play(Player player){
     
 
   }

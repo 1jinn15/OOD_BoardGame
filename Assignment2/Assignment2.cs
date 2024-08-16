@@ -47,14 +47,14 @@ public class GameMode
 
   }
 
-  private void setHumanVsHumanMode(string name1, string name2)
-  {
-    
+  private void setHumanVsHumanMode(string name1, string name2){
+    player1 = new HumanPlayer(1, name1);
+    player2 = new HumanPlayer(2, name2);
   }
 
-  private void setHumanVsComputerMode(string name)
-  {
-    
+  private void setHumanVsComputerMode(string name){
+    player1 = new HumanPlayer(1, name);
+    player2 = new ComputerPlayer(2);
   }
 
 

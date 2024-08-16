@@ -33,9 +33,13 @@ public class HumanPlayer : Player
 
 public class ComputerPlayer : Player
 {
-  
+  public int PlayerNumber { get;  set; }
+  public string Name { get;  set; }
 
-  
+  public ComputerPlayer(int playerNumber){
+    PlayerNumber = playerNumber;
+    Name = "Computer";
+  }
 }
 
 public class GameMode

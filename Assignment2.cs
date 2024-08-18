@@ -5,37 +5,36 @@ using System.IO.Enumeration;
 
 public class MoveTracker{
   
-
   public MoveTracker(){
     
   }
 
 }
 
-public interface Player
-{
-  
+public interface Player{
+  public int PlayerNumber { get; set; }
+  public string Name { get; set; }
+
+  public int Play(int width);
 }
 
 public class HumanPlayer : Player
 {
   
 
-  public HumanPlayer(int playerNumber, string name)
-  {
-    
+  public HumanPlayer(int playerNumber, string name){
+    PlayerNumber = playerNumber;
+    Name = name;
   }
 
-  public int Play(int width)
-  {
-    
+  public int Play(int width){
+    int number;
   }
 
   
 }
 
-public class ComputerPlayer : Player
-{
+public class ComputerPlayer : Player{
   
 
   
@@ -43,20 +42,35 @@ public class ComputerPlayer : Player
 
 public class GameMode
 {
-
+  
   public GameMode()
   {
+    int chooseGameMode;
+    do
+    {
+      Console.Write("Enter your choice (1. Human vs Human, 2. Human vs Computer) : ");
+      Console.WriteLine("Please select a game mode");
+    } while (!int.TryParse(Console.ReadLine(), out choice) || (choice != 1 && choice != 2));
 
+    switch (choice)
+    {
+      case 1:
+        setHumanVsHumanMode(name1, name2);
+        break;
+      case 2:
+        setHumanVsComputerMode(name);
+        break;
+    }
   }
 
-  private void setHumanVsHumanMode(string name1, string name2)
-  {
-    
+  private void setHumanVsHumanMode(string name1, string name2){
+    HumanPlayer p1 = new HumanPlayer(1, name1);
+    HumanPlayer p2 = new HumanPlayer(2, name2);
   }
 
-  private void setHumanVsComputerMode(string name)
-  {
-    
+  private void setHumanVsComputerMode(string name){
+    HumanPlayer p1 = new HumanPlayer(1, name);
+    ComputerPlayer p2 = new ComputerPlayer(2, "ComputerPlayer");
   }
 
 
@@ -143,7 +157,7 @@ public abstract class BoardGame
   }
   
 }
-class Treblecross : BoardGame
+class Notakto : BoardGame
 {
   
   protected override void initializeGame()
@@ -171,7 +185,7 @@ class Treblecross : BoardGame
 }
 
 
-class Reversi : BoardGame
+class Gomoku : BoardGame
 {
   private Board board;
   protected override void initializeGame()
@@ -208,4 +222,3 @@ class Program
 
   
 }
-

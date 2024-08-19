@@ -7,12 +7,15 @@ public class MoveTracker{
   
   public MoveTracker(){
     
+  
   }
-
 }
 
 public interface Player{
-  
+  public int PlayerNumber { get; set; }
+  public string Name { get; set; }
+
+  public int Play(int width);
 }
 
 public class HumanPlayer : Player
@@ -25,10 +28,9 @@ public class HumanPlayer : Player
   }
 
   public int Play(int width){
-    
+    int number;
   }
 
-  
 }
 
 public class ComputerPlayer : Player{
@@ -42,32 +44,54 @@ public class GameMode
   
   public GameMode()
   {
+    int chooseGameMode;
+    do
+    {
+      Console.Write("Enter your choice (1. Human vs Human, 2. Human vs Computer) : ");
+      Console.WriteLine("Please enter a game mode");
+    } while (!int.TryParse(Console.ReadLine(), out choice) || (choice != 1 && choice != 2));
 
+    switch (choice)
+    {
+      case 1:
+        setHumanVsHumanMode(name1, name2);
+        break;
+      case 2:
+        setHumanVsComputerMode(name);
+        break;
+    }
   }
 
   private void setHumanVsHumanMode(string name1, string name2){
-    
+    HumanPlayer p1 = new HumanPlayer(1, name1);
+    HumanPlayer p2 = new HumanPlayer(2, name2);
   }
 
   private void setHumanVsComputerMode(string name){
-    
+    HumanPlayer p1 = new HumanPlayer(1, name);
+    ComputerPlayer p2 = new ComputerPlayer(2, "ComputerPlayer");
   }
 
 
 }
 public class Board
 {
-  
+  public int width { get; private set; }
+  public int height { get; private set; }
+
   public MoveTracker MoveTracker{get;set;}
 
-  public Board(int width){
-    
+  public Board(int size){
+    width = size;
+    height = size;
+
+
   }
 
-  public Board(int height,int width)
-  {
+  // public Board(int height,int width)
+  // {
     
-  }
+  // }
 
   public void Draw()
   {
@@ -142,7 +166,8 @@ class Notakto : BoardGame
   
   protected override void initializeGame()
   {
-    
+    private Board board;
+    board.size = 3;
 
   }
 
@@ -195,7 +220,6 @@ class Program
 {
   static void Main(string[] args)
   {
-
 
 
   }

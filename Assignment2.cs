@@ -77,26 +77,13 @@ public class GameMode
 
 public class SaveFile{
     
-    public char player1;
-    public char player2;
-    public char currentPlayer;
-    public Board[] board;
+  public String fileName {get; private set; }
+  public int fileID {get; private set; }
+  public DateTime saveTime {get; private set; }
 
-    File(Board[] board){
-        this.board = board;
-    }
+  public SaveFile(
+  
 
-    public void loadFile(){
-        // load file
-    }
-
-    void saveFile(){
-    
-    }
-
-    private string generateFileName(string filename){
-    
-    }
 
 }
 

@@ -74,72 +74,107 @@ public class GameMode
 
 
 }
+
+public class SaveFile{
+    
+    public char player1;
+    public char player2;
+    public char currentPlayer;
+    public Board[] board;
+
+    File(Board[] board){
+        this.board = board;
+    }
+
+    public void loadFile(){
+        // load file
+    }
+
+    void saveFile(){
+    
+    }
+
+    private string generateFileName(string filename){
+    
+    }
+
+}
+
 public class Board
 {
-  public int width { get; private set; }
-  public int height { get; private set; }
+    private int width;
+    private int height;
+    public char[,] board;
 
-  public MoveTracker MoveTracker{get;set;}
+    public Board(int width, int height)
+    {
+        this.width = width;
+        this.height = height;
+        this.board = new char[width, height];
+        
+        // Initialize the board with spaces
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                board[i, j] = ' ';
+            }
+        }
+    }
+    public void printBoard(){
+        Console.WriteLine("board ");
+        Console.WriteLine("-------");
+        for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j < 3; j++)
+                {
+                    Console.Write("|");
+                    if(board[i,j] == ' ')
+                    {
+                        Console.Write(" ");
+                    }
+                    else
+                    {
+                        Console.Write(board[i,j]);
+                    }
+                }
+                Console.WriteLine("|");
 
-  public Board(int size){
-    width = size;
-    height = size;
+                
+                Console.WriteLine("-------");
+                
+            }
+    }
 
+    private void checkWin(){
+        if((board[0,0] == board[0,1] && board[0,1] == board[0,2] && board[0,2] != ' ')
+        || (board[1,0] == board[1,1] && board[1,1] == board[1,2] && board[1,2] != ' ')
+        || (board[2,0] == board[2,1] && board[2,1] == board[2,2] && board[2,2] != ' ')
+        || (board[0,0] == board[1,0] && board[1,0] == board[2,0] && board[2,0] != ' ')
+        || (board[0,1] == board[1,1] && board[1,1] == board[2,1] && board[2,1] != ' ')
+        || (board[0,2] == board[1,2] && board[1,2] == board[2,2] && board[2,2] != ' ')
+        || (board[0,0] == board[1,1] && board[1,1] == board[2,2] && board[2,2] != ' ')
+        || (board[0,2] == board[1,1] && board[1,1] == board[2,0] && board[2,0] != ' '))
+            return true;
+        return false;
+    }
 
-  }
-
-  // public Board(int height,int width)
-  // {
+    public bool PlacePiece(int playerNumber,  int position_y ,int position_x = 0){
     
-  // }
-
-  public void Draw()
-  {
-
   }
   
-  public bool PlacePiece(int playerNumber,  int position_y ,int position_x = 0)
-  {
-    
-  }
-  
-  public bool IsFull()
-  {
+  public bool IsFull(){
     
   }
 
-  public void Undo()
-  {
+  public void Undo(){
     
   }
 
-  public void Redo()
-  {
+  public void Redo(){
     
   }
 }
-
-public class SaveFile{  
-  
-  public void saveGameToFile(Board board, Player[] players, int currentPlayer)
-  {
-    
-  }
-  public void loadGameFromFile()
-  {
- 
-
-    
-    
-  }
-
-  private string generateFileName(string filename)
-  {
-    
-  }
-
-}
-
 
 public abstract class BoardGame
 {
@@ -220,7 +255,16 @@ class Program
 {
   static void Main(string[] args)
   {
+    Board[] board = new Board[3];
+        board[0] = new Board(3,3);
+        board[1] = new Board(3,3);
+        board[2] = new Board(3,3); 
+        
 
+        
+        for(int k = 0; k < 3; k++){
+            board[k].printBoard();
+        }
 
   }
 

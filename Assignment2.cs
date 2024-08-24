@@ -21,41 +21,20 @@ public class MoveTracker
 
     }
 }
-
-
-
-
-// public class SaveFile
-// {
-
-//     public char player1;
-//     public char player2;
-//     public char currentPlayer;
-//     public Board[] board;
-
-//     public void File(Board[] board)
-//     {
-//         this.board = board;
-//     }
-
-//     public void loadFile()
-//     {
-//         // load file
-//     }
-
-//     void saveFile()
-//     {
-
-//     }
-
-//     private string generateFileName(string filename)
-//     {
-
-//     }
-
-// }
-
 */
+
+public class SaveFile{
+
+  public String fileName {get; private set; }
+  public int fileID {get; private set; }
+  public DateTime saveTime {get; private set; }
+
+  public SaveFile(){
+
+
+
+}
+    
 public abstract class BoardGame
 {
     protected abstract void initializeGame();

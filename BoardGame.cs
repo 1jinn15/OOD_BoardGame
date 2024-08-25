@@ -1,5 +1,4 @@
 ﻿
-
 using System;
 
 namespace BoardGameNamespace
@@ -16,24 +15,31 @@ namespace BoardGameNamespace
         protected Board[] boards;
         protected Cordinate piece;
 
+        public BoardGame()
+        {
+            initializeGame();
+        }
+
         public int BoardSize
         {
             get { return boards.Length; }
         }
-        public BoardGame()
-        {
 
-            initializeGame();
+
+        
+        public void loadOldGame(Player[] players, int currentPlayer, Board[] boards)
+        {
+           
+            this.players = players;
+            this.currentPlayer = currentPlayer;
+            this.boards = boards;
+
             playGame();
-
-
-        }
-        public void loadOldGame(Board board, Player[] player, int currentPlayer)
-        {
 
         }
         public void playGame()
         {
+            
             do
             {
 

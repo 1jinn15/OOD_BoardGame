@@ -81,5 +81,10 @@ namespace BoardGame_OOD
 
             return savefile;
         }
+        // Delete File Method
+        public static void DeleteSaveFile(string fileName)
+        {
+            File.Delete(fileName);  
+        }
     }
 }

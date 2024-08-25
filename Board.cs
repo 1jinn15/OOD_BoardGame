@@ -1,12 +1,13 @@
-﻿namespace BoardGameNamespace
+using System;
+namespace BoardGameNamespace
 {
     public class Cordinate
     {
-        
-            public int x { get; set; }
-            public int y { get; set; }
-            public int boardNum { get; set; }
-        
+
+        public int x { get; set; }
+        public int y { get; set; }
+        public int boardNum { get; set; }
+
     }
 
     public class Board
@@ -15,7 +16,7 @@
         public int Width { get; private set; }
         public int Height { get; private set; }
         public bool available { get; set; }
-        public char[,] board;
+        public char[,] board { get; set; }
 
         public Board(int width, int height)
         {

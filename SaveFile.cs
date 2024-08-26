@@ -1,96 +1,95 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-// Have to make edits in this one DO NOT RUN this yet
+using System.IO;
+
 namespace BoardGame_OOD
 {
-    internal class SaveFile
+    public class SaveFile
     {
-        public String fileName { get; private set; }
-        public int fileID { get; private set; }
-        public DateTime saveTime { get; private set; }
-        public Board[] Boards { get; private set; }
-        public Player[] Players { get; private set; }
-        public int CurrentPlayer { get; private set; }
-
-        //board status (doubt) 
-        // public string BoardStatus { get; private set; }
+        public char player1 { get; private set; }
+        public char player2 { get; private set; }
+        public char currentPlayer { get; private set; }
+        public Board[] board { get; private set; }
 
 
-        public SaveFile(String fileName, int fileID, Board[] boards, Player[] players, int currentPlayer)
+        public SaveFile(char player1, char player2, char currentPlayer, Board[] board)
         {
-            FileName = Name;
-            FileID = ID;
-            SaveTime = DateTime.Now;
-            Boards = boards;
-            Players = players;
-            CurrentPlayer = currentPlayer;
+            this.player1 = player1;
+            this.player2 = player2;
+            this.currentPlayer = currentPlayer;
+            this.board = board;
         }
 
-        private SaveFile() 
-        { 
-        
+
+        public void File(Board[] board)
+        {
+            this.board = board;
         }
 
-        // Save File Method
-        public void Save()
+        // Method to save game information 
+        public void saveFile(string fileName)
         {
-            const string FILENAME = "SaveGame.txt";
+            string filePath = generateFileName(fileName);
 
-            FileStream outFile = new FileStream(FILENAME, FileMode.Create, FileAccess.Write);
+            FileStream outFile = new FileStream(filePath, FileMode.Create, FileAccess.Write);
             StreamWriter writer = new StreamWriter(outFile);
 
-            writer.WriteLine("{0},{1},{2}",fileName, fileID, saveTime);
+
+            writer.WriteLine(player1);
+            writer.WriteLine(player2);
+            writer.WriteLine(currentPlayer);
+
+
+            foreach (var b in board)
+            {
+                for (int i = 0; i < b.board.GetLength(0); i++)
+                {
+                    for (int j = 0; j < b.board.GetLength(1); j++)
+                    {
+                        writer.Write(b.board[i, j]);
+                    }
+                    writer.WriteLine(); 
+                }
+            }
 
             writer.Close();
             outFile.Close();
         }
 
-        // Load File Method 
-
-        public static SaveFile Load()
+        // Method to load information from file
+        public void loadFile(string fileName)
         {
-            const string FILENAME = "Game.txt";
-            SaveFile savefile = new SaveFile();
+            string filePath = generateFileName(fileName);
+
+            FileStream inFile = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(inFile);
+
+     
+            player1 = reader.ReadLine()[0];
+            player2 = reader.ReadLine()[0];
+            currentPlayer = reader.ReadLine()[0];
 
 
-            FileStream intFile = new FileStream(FILENAME, FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(intFile);
-
-
-            string record;
-            string[] fields;
-
-
-            Console.WriteLine("\n{0},-10}{1,-18},{2,10}\n", "ID", "Name", "Save Time");
-            record = reader.ReadLine();
-
-
-            while (record != null)
+            for (int b = 0; b < board.Length; b++)
             {
-                fields = record.Split(',');
-
-                savefile.fileID = Convert.ToInt16(fields[0]);
-                savefile.fileName = fields[1];
-                savefile.saveTime = DateTime.Parse(fields[2]);
-                Console.WriteLine("{0},-10}{1,-18},{2,10}", savefile.fileID, savefile.fileName);
-                record = reader.ReadLine();
-
+                for (int i = 0; i < board[b].board.GetLength(0); i++)
+                {
+                    string line = reader.ReadLine();
+                    for (int j = 0; j < board[b].board.GetLength(1); j++)
+                    {
+                        board[b].board[i, j] = line[j];
+                    }
+                }
             }
 
 
             reader.Close();
-            intFile.Close();
-
-            return savefile;
+            inFile.Close();
         }
-        // Delete File Method
-        public static void DeleteSaveFile(string fileName)
+
+
+        private string generateFileName(string filename)
         {
-            File.Delete(fileName);  
+            return $"{filename}.txt";
         }
     }
 }

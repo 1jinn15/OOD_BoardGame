@@ -80,7 +80,22 @@ using BoardGameNamespace;
                 //************************  Please only finish the following part, don't change anything else *************************
 
                 // Task: Read 2 player name, currentPlayer, and 3 board from file and put it in the following variable 
+                string[] names = new string[2];
+                int currentPlayer = 0;
+                Board[] boards = new Board[3];
 
+                SaveFile saveFile = new SaveFile(); 
+
+
+                saveFile.loadFile(fileName);
+
+              
+                names[0] = saveFile.player1;
+                names[1] = saveFile.player2;
+                currentPlayer = saveFile.currentPlayer;
+                boards = saveFile.board;
+
+                //made the changes let me know if this works
 
 
                 string[] name = new string[2] { "ComputerPlayer", "anythinelse" };

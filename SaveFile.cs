@@ -12,16 +12,22 @@ namespace BoardGame_OOD
         public String fileName { get; private set; }
         public int fileID { get; private set; }
         public DateTime saveTime { get; private set; }
+        public Board[] Boards { get; private set; }
+        public Player[] Players { get; private set; }
+        public int CurrentPlayer { get; private set; }
 
         //board status (doubt) 
         // public string BoardStatus { get; private set; }
 
 
-        public SaveFile(String Name, int ID)
+        public SaveFile(String fileName, int fileID, Board[] boards, Player[] players, int currentPlayer)
         {
-            fileName = Name;
-            fileID = ID;
-            saveTime = DateTime.Now;
+            FileName = Name;
+            FileID = ID;
+            SaveTime = DateTime.Now;
+            Boards = boards;
+            Players = players;
+            CurrentPlayer = currentPlayer;
         }
 
         private SaveFile() 

@@ -1,26 +1,36 @@
+﻿using BoardGameNamespace;
 using System;
 using System.IO;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Threading;
+using System.Xml.Linq;
 
 namespace BoardGame_OOD
 {
     public class SaveFile
     {
-        public char player1 { get; private set; }
-        public char player2 { get; private set; }
-        public char currentPlayer { get; private set; }
+        public Player player1 { get; private set; }
+        public Player player2 { get; private set; }
+        public int currentPlayer { get; private set; }
         public Board[] board { get; private set; }
+        public string str = "";
 
 
-        public SaveFile(char player1, char player2, char currentPlayer, Board[] board)
+        public SaveFile(Player player1, Player player2, int currentPlayer, Board[] board)
         {
             this.player1 = player1;
             this.player2 = player2;
             this.currentPlayer = currentPlayer;
             this.board = board;
+
+        }
+        public SaveFile()
+        {
+            board = new Board[3];
         }
 
-
-        public void File(Board[] board)
+        public void BoardFile(Board[] board)//used to be File
         {
             this.board = board;
         }
@@ -28,62 +38,123 @@ namespace BoardGame_OOD
         // Method to save game information 
         public void saveFile(string fileName)
         {
-            string filePath = generateFileName(fileName);
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string projectDirectory = Directory.GetParent(currentDirectory).Parent.FullName;
+            string filePath = Path.Combine(projectDirectory, fileName);
 
-            FileStream outFile = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(outFile);
-
-
-            writer.WriteLine(player1);
-            writer.WriteLine(player2);
-            writer.WriteLine(currentPlayer);
-
-
-            foreach (var b in board)
+            // Ensure the board array is initialized
+            if (this.board == null)
             {
-                for (int i = 0; i < b.board.GetLength(0); i++)
-                {
-                    for (int j = 0; j < b.board.GetLength(1); j++)
-                    {
-                        writer.Write(b.board[i, j]);
-                    }
-                    writer.WriteLine(); 
+                Console.WriteLine("Board array is null.");
+                return;
+            }
+
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine(this.player1.Name);
+                writer.WriteLine(this.player2.Name);
+                writer.WriteLine(this.currentPlayer);
+
+                for (int i=0;i<3;i++) { 
+                    
                 }
             }
 
-            writer.Close();
-            outFile.Close();
+            Console.WriteLine($"Game saved to {filePath}");
         }
+
+
 
         // Method to load information from file
         public void loadFile(string fileName)
         {
-            string filePath = generateFileName(fileName);
-
-            FileStream inFile = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(inFile);
-
-     
-            player1 = reader.ReadLine()[0];
-            player2 = reader.ReadLine()[0];
-            currentPlayer = reader.ReadLine()[0];
-
-
-            for (int b = 0; b < board.Length; b++)
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string projectDirectory = Directory.GetParent(currentDirectory).Parent.FullName;
+            string filePath = Path.Combine(projectDirectory, fileName);
+            //Console.WriteLine(readFile);
+            using (StreamReader reader = new StreamReader(filePath))
             {
-                for (int i = 0; i < board[b].board.GetLength(0); i++)
+                string p1Name = reader.ReadLine();
+                string p2Name = reader.ReadLine();
+                //player1.Name = reader.ReadLine();  // 
+                //player2.Name = reader.ReadLine();  // 
+                if (p2Name == "ComputerPlayer")
                 {
-                    string line = reader.ReadLine();
-                    for (int j = 0; j < board[b].board.GetLength(1); j++)
+                    player1 = new HumanPlayer(1, p1Name);
+                    player2 = new ComputerPlayer(2, "ComputerPlayer");
+                }
+                else
+                {
+                    player1 = new HumanPlayer(1, p1Name);
+                    player2 = new HumanPlayer(2, p2Name);
+                }
+                //Console.WriteLine(player1.Name+", p2: "+player2.Name);
+
+
+                
+                if (int.TryParse(reader.ReadLine(), out int playerNumber))
+                {
+                    this.currentPlayer = playerNumber;
+                }
+                else
+                {
+                    throw new InvalidDataException("Invalid data for currentPlayer");
+                }
+                //Console.WriteLine("currentplayer: "+currentPlayer);
+                for (int i = 0; i < 3; i++)
+                { 
+                    this.board[i] = new Board(3, 3);
+                    string line="";
+                    line = reader.ReadLine();
+                    //this.board[i-1].printBoard(i, line);
+                    this.str = line;
+                    this.board[i].oldToBoard(line, board[i]);
+                    //Console.WriteLine(str);
+                }
+            }
+        }
+
+        public void printSaveFile()
+        {
+            FileInfo fileInfo;
+            DateTime lastModified;
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string projectDirectory = Directory.GetParent(currentDirectory).Parent.FullName;
+
+            Console.WriteLine("Searching for files...");
+            try
+            {
+                string[] files = Directory.GetFiles(projectDirectory, "*.txt");
+
+                if (files.Length == 0)
+                {
+                    Console.WriteLine("No .txt files found in the project directory.");
+                    return;
+                }
+
+                foreach (string file in files)
+                {
+                    //Console.WriteLine($"Reading file: {Path.GetFileName(file)}");
+
+                    try
                     {
-                        board[b].board[i, j] = line[j];
+                        fileInfo = new FileInfo(file);
+                        //modified date
+                        lastModified = fileInfo.LastWriteTime;
+                        Console.WriteLine("--------------------------");
+                        Console.WriteLine("File name: "+ Path.GetFileName(file)+", Date: "+lastModified);
+                        Console.WriteLine("--------------------------");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error reading file {Path.GetFileName(file)}: {ex.Message}");
                     }
                 }
             }
-
-
-            reader.Close();
-            inFile.Close();
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error accessing directory: {ex.Message}");
+            }
         }
 
 

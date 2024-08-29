@@ -1,3 +1,4 @@
+﻿using BoardGame_OOD;
 using System;
 
 namespace BoardGameNamespace
@@ -9,14 +10,18 @@ namespace BoardGameNamespace
         protected abstract bool endOfGame();
         protected abstract bool checkWinCondition();
         protected GameMode selectGameMode;
-        protected Player[] players;
+        protected GameMode oldGameMode;
+        protected Player player1;
+        protected Player player2;
+        //protected Player[] players;
         protected int currentPlayer = 1;
         protected Board[] boards;
         protected Cordinate piece;
+        protected SaveFile save;
 
         public BoardGame()
         {
-            initializeGame();
+            //initializeGame();
         }
 
         public int BoardSize
@@ -24,55 +29,62 @@ namespace BoardGameNamespace
             get { return boards.Length; }
         }
 
-
-        
-        public void loadOldGame(Player[] players, int currentPlayer, Board[] boards)
-        {
-           
-            this.players = players;
-            this.currentPlayer = currentPlayer;
-            this.boards = boards;
-
-            playGame();
-
-        }
+       
         public void playGame()
         {
-            
+            this.save = new SaveFile();
             do
             {
 
                 for (int i = 0; i < 3; i++)
                 {
-                    boards[i].printBoard(i);
+                    this.boards[i].printBoard(i);
                 }
-
-                switch (currentPlayer)
+                switch (this.currentPlayer)
                 {
                     case 1:
-                        Console.WriteLine("It's now player" + selectGameMode.player1.PlayerNumber + "'s turn!");
-                        piece = selectGameMode.player1.Play(boards);
+                        Console.WriteLine("It's now player" + this.player1.PlayerNumber + "'s turn!");
+                        Console.WriteLine("Do you want to save this game and exit?(y/n)");
+                        string s = Console.ReadLine();
+                        if (s=="y") {
+                            Console.WriteLine("name this game: ");
+                            string name = Console.ReadLine();
+                            //save.saveFile(name);
+                            return;
+                        }
+                        piece = this.player1.Play(this.boards);
                         Console.WriteLine("Put on the " + piece.boardNum.ToString() + "Board, Move: x:" + piece.x.ToString() + " y: " + piece.y.ToString());
 
-                        boards[piece.boardNum].PlacePiece(1, piece.x, piece.y);
-                        if (boards[piece.boardNum].checkWin() == true)
+                        this.boards[piece.boardNum].PlacePiece(1, piece.x, piece.y);
+                        if (this.boards[piece.boardNum].checkWin() == true)
                         {
-                            boards[piece.boardNum].available = false;
+                            this.boards[piece.boardNum].available = false;
                         }
-                        currentPlayer = 2;
+                        this.currentPlayer = 2;
 
                         if (checkWinCondition()) return;
 
                         break;
                     case 2:
-                        Console.WriteLine("It's now player" + selectGameMode.player2.PlayerNumber + "'s turn!");
-                        piece = selectGameMode.player2.Play(boards);
+                        Console.WriteLine("It's now player" + this.player2.PlayerNumber + "'s turn!");
+                        if (player2.Name!= "ComputerPlayer") {
+                            Console.WriteLine("Do you want to save this game and exit?(y/n)");
+                            string str = Console.ReadLine();
+                            if (str == "y")
+                            {
+                                Console.WriteLine("name this game: ");
+                                string name = Console.ReadLine();
+                                //save.saveFile(name);
+                                return;
+                            }
+                        }
+                        piece = this.player2.Play(this.boards);
                         Console.WriteLine("Put on the " + piece.boardNum.ToString() + "Board, Move: x:" + piece.x.ToString() + " y: " + piece.y.ToString());
 
-                        boards[piece.boardNum].PlacePiece(2, piece.x, piece.y);
-                        if (boards[piece.boardNum].checkWin() == true)
+                        this.boards[piece.boardNum].PlacePiece(2, piece.x, piece.y);
+                        if (this.boards[piece.boardNum].checkWin() == true)
                         {
-                            boards[piece.boardNum].available = false;
+                            this.boards[piece.boardNum].available = false;
                         }
                         currentPlayer = 1;
 
@@ -97,7 +109,19 @@ namespace BoardGameNamespace
     }
     class Notakto : BoardGame
     {
+        public Notakto() {
+            initializeGame();
+        }
+        public Notakto(Player player1, Player player2, int currentPlayer, Board[] board, string str) {
 
+            this.oldGameMode = new GameMode(1);
+            this.boards = board;
+            this.player1 = player1;
+            this.player2 = player2;
+            this.currentPlayer = currentPlayer;
+
+            playGame();
+        }
         protected override void initializeGame()
         {
             this.boards = new Board[3];

@@ -10,6 +10,10 @@ namespace BoardGameNamespace
     {
         public Player player1 { set; get; }
         public Player player2 { set; get; }
+
+        public GameMode(int chooseGameMode) { 
+            
+        }
         public GameMode()
         {
             int chooseGameMode;
@@ -38,6 +42,7 @@ namespace BoardGameNamespace
                     break;
             }
         }
+        
 
         private void setHumanVsHumanMode(string name1, string name2)
         {

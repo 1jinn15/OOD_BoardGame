@@ -24,6 +24,8 @@ namespace BoardGameNamespace
 
         }
 
+
+
         public Cordinate Play(Board[] boards)
         {
             /*

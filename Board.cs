@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 namespace BoardGameNamespace
 {
     public class Cordinate
@@ -73,6 +73,73 @@ namespace BoardGameNamespace
             }
         }
 
+        public void printBoard(string str, int boardNum)
+        {
+            Console.WriteLine("board: " + boardNum);
+            Console.WriteLine("-------");
+            int length = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write("|");
+                    if (str[length] != ' ')
+                    {
+                        Console.Write(str[length]);
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
+                    length++;
+                }
+                Console.WriteLine("|");
+
+
+                Console.WriteLine("-------");
+            }
+        }
+
+        public void printBoard(int boardNum, string x)
+        {
+            Console.WriteLine("board: " + boardNum);
+            Console.WriteLine("-------");
+            int length = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j=0;j<3;j++) { 
+                Console.Write("|");
+                if (x[length] != ' ')
+                {
+                        Console.Write(x[length]);
+                }
+                else
+                {
+                    Console.Write(" ");
+                }length++;
+            }
+                Console.WriteLine("|");
+
+
+                Console.WriteLine("-------");
+
+            }
+        }
+
+        public void oldToBoard(string str, Board board) {
+            //char[,] exampleBoard = new char[3, 3];
+            int index = 0;
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    this.board[i, j] = str[index];
+                    index++;
+                }
+            }
+        }
+
         public bool checkWin()
         {
             if ((board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] && board[0, 2] != ' ')
@@ -90,6 +157,7 @@ namespace BoardGameNamespace
         public bool PlacePiece(int playerNumber, int position_x, int position_y)
         {
             board[position_x, position_y] = 'X';
+            
             return true;
         }
 

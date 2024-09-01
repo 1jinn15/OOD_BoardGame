@@ -15,6 +15,7 @@ namespace BoardGame_OOD
         public int currentPlayer { get; private set; }
         public Board[] board { get; private set; }
         public string str = "";
+        protected MoveTracker moveTracker { get; private set; }
 
 
         public SaveFile(Player player1, Player player2, int currentPlayer, Board[] board)
@@ -55,8 +56,16 @@ namespace BoardGame_OOD
                 writer.WriteLine(this.player2.Name);
                 writer.WriteLine(this.currentPlayer);
 
-                for (int i=0;i<3;i++) { 
-                    
+                
+                for (int i=0;i<3;i++) {
+                    string str = "";
+                    this.board[i] = new Board(3, 3,i, moveTracker);
+                    for (int x=0;x<3;x++) {
+                        for (int y=0;y<3;y++) {
+                            str+=this.board[i].board[x, y];
+                        }
+                    }
+
                 }
             }
 
@@ -76,8 +85,8 @@ namespace BoardGame_OOD
             {
                 string p1Name = reader.ReadLine();
                 string p2Name = reader.ReadLine();
-                //player1.Name = reader.ReadLine();  // 
-                //player2.Name = reader.ReadLine();  // 
+                //player1.Name = reader.ReadLine();  // 讀取第一行並設置 player1 的名字
+                //player2.Name = reader.ReadLine();  // 讀取第二行並設置 player2 的名字
                 if (p2Name == "ComputerPlayer")
                 {
                     player1 = new HumanPlayer(1, p1Name);
@@ -91,7 +100,7 @@ namespace BoardGame_OOD
                 //Console.WriteLine(player1.Name+", p2: "+player2.Name);
 
 
-                
+                // 將第三行轉換為整數並設置 currentPlayer
                 if (int.TryParse(reader.ReadLine(), out int playerNumber))
                 {
                     this.currentPlayer = playerNumber;
@@ -103,7 +112,7 @@ namespace BoardGame_OOD
                 //Console.WriteLine("currentplayer: "+currentPlayer);
                 for (int i = 0; i < 3; i++)
                 { 
-                    this.board[i] = new Board(3, 3);
+                    this.board[i] = new Board(3, 3,i, moveTracker);
                     string line="";
                     line = reader.ReadLine();
                     //this.board[i-1].printBoard(i, line);

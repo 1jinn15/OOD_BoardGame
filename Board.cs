@@ -1,29 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace BoardGameNamespace
 {
     public class Cordinate
     {
-
         public int x { get; set; }
         public int y { get; set; }
         public int boardNum { get; set; }
-
     }
-
     public class Board
     {
-        //public or private?
         public int Width { get; private set; }
         public int Height { get; private set; }
         public bool available { get; set; }
         public char[,] board { get; set; }
+        private MoveTracker moveTracker;
+        public int BoardNum { get; private set; }
 
-        public Board(int width, int height)
+        public Board(int width, int height, int boardNum, MoveTracker moveTracker)
         {
             this.Width = width;
             this.Height = height;
             this.board = new char[width, height];
             this.available = true;
+            this.moveTracker = new MoveTracker();
+            this.BoardNum = boardNum;
+            this.moveTracker = moveTracker;
+
 
             // Initialize the board with spaces
             for (int i = 0; i < width; i++)
@@ -47,6 +51,7 @@ namespace BoardGameNamespace
                 return true;
             }
         }
+
         public void printBoard(int boardNum)
         {
             Console.WriteLine("board: " + boardNum);
@@ -73,60 +78,8 @@ namespace BoardGameNamespace
             }
         }
 
-        public void printBoard(string str, int boardNum)
+        public void oldToBoard(string str, Board board)
         {
-            Console.WriteLine("board: " + boardNum);
-            Console.WriteLine("-------");
-            int length = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    Console.Write("|");
-                    if (str[length] != ' ')
-                    {
-                        Console.Write(str[length]);
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-                    length++;
-                }
-                Console.WriteLine("|");
-
-
-                Console.WriteLine("-------");
-            }
-        }
-
-        public void printBoard(int boardNum, string x)
-        {
-            Console.WriteLine("board: " + boardNum);
-            Console.WriteLine("-------");
-            int length = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j=0;j<3;j++) { 
-                Console.Write("|");
-                if (x[length] != ' ')
-                {
-                        Console.Write(x[length]);
-                }
-                else
-                {
-                    Console.Write(" ");
-                }length++;
-            }
-                Console.WriteLine("|");
-
-
-                Console.WriteLine("-------");
-
-            }
-        }
-
-        public void oldToBoard(string str, Board board) {
             //char[,] exampleBoard = new char[3, 3];
             int index = 0;
 
@@ -138,6 +91,13 @@ namespace BoardGameNamespace
                     index++;
                 }
             }
+        }
+
+        public bool RemovePiece(int playerNumber, int position_x, int position_y)
+        {
+            board[position_x, position_y] = ' ';
+
+            return true;
         }
 
         public bool checkWin()
@@ -157,11 +117,14 @@ namespace BoardGameNamespace
         public bool PlacePiece(int playerNumber, int position_x, int position_y)
         {
             board[position_x, position_y] = 'X';
-            
+
+            var coordinate = new List<int> { position_x, position_y, playerNumber };
+
+            this.moveTracker.PushMove(this.BoardNum, coordinate);
+
             return true;
         }
 
-        //Maybe dont need IsFull() in Notakto?
         public bool IsFull(int sizeWidth, int sizeHeight)
         {
             for (int i = 0; i < sizeWidth; i++)
@@ -177,14 +140,19 @@ namespace BoardGameNamespace
             return true;
         }
 
-        public void Undo()
+        public void UndoMove(List<int> move)
         {
-
+            int x = move[0];
+            int y = move[1];
+            board[x, y] = ' ';
         }
 
-        public void Redo()
+        public void RedoMove(List<int> move)
         {
-
+            int x = move[0];
+            int y = move[1];
+            board[x, y] = 'X';
         }
     }
-}
+
+    }
